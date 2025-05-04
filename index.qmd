@@ -45,6 +45,7 @@ The main life evaluation question asked in the poll is the Cantril Life Ladder q
 
 > “Please imagine a ladder, with steps numbered from 0 at the bottom to 10 at the top. The top of the ladder represents the best possible life for you and the bottom of the ladder represents the worst possible life for you. On which step of the ladder would you say you personally feel you stand at this time?”
 
+:::{.panel-tabset}
 
 ## 🔢 Table
 
@@ -77,7 +78,6 @@ cantril_table <- cantril %>%
 reactable(cantril_table)
 ```
 
-
 ## 🌎 Map
 
 The map plots the average answer that survey respondents provided to this question in different countries. As with the steps of the ladder, values in the map range from 0 to 10.
@@ -102,7 +102,6 @@ cantril %>%
         ticktext = seq(0, 10, by = 2)
     )
 ```
-
 
 ## 📈 Simple Chart
 
@@ -185,6 +184,7 @@ bscols(
 # Note that the default countries will only be set when you knit the document.
 # Because it relies on the javascript snippet below, which is not rendered in the quarto preview.
 ```
+:::
 
 <!-- CUSTOM JAVASCRIPT TO SET DEFAULT VALUES IN THE FILTER: -->
 <script>
