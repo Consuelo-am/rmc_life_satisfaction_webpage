@@ -1,7 +1,7 @@
 ---
 title: "Self-reported life satisfaction, 2011 to 2023"
 subtitle: "Replicating the Our World in Data Grapher"
-author: "YOUR NAME HERE" # Remember to add your name!
+author: "Consuelo Alzamora" # Remember to add your name!
 theme: united
 ---
 
@@ -34,6 +34,7 @@ pacman::p_load(plotly, tidyverse, reactable, here, scales)
 cantril <-
     read_csv(here("data/happiness-cantril-ladder.csv")) %>%
     rename(Country = Entity)
+
 ```
 
 ### Happiness across the world over time
@@ -63,7 +64,17 @@ The main life evaluation question asked in the poll is the Cantril Life Ladder q
 # 5. Also with `mutate`, you should round your numbers to appropriate decimal places.
 # 6. Then use scales::percent to format the Relative change as a percentage.
 # 7. Use the `reactable` function to create and output the table.
-"WRITE_YOUR_CODE_HERE"
+
+cantril_table <- cantril %>% 
+  select (-Code) %>% 
+  filter(Year %in% c(2011, 2023)) %>% 
+  pivot_wider(names_from = Year, 
+              values_from = `Cantril ladder score`) %>% 
+  mutate(`Absolute change` = round(`2023` - `2011`, 2), 
+         `Relative change` = round((`2023` - `2011`) / `2011`, 3),
+         `Relative change` = percent(`Relative change`))
+
+reactable(cantril_table)
 ```
 
 
@@ -109,7 +120,25 @@ cantril %>%
 # 6. Use theme_minimal to set the theme.
 # 7. Finally, use ggplotly to convert the ggplot chart to a plotly chart
 
-"WRITE_YOUR_CODE_HERE"
+cantril_filtered <- cantril %>%
+  filter(Country %in% c("Chile", "Haiti", "United States", "Brazil", "France"))
+
+cantril_plot <- 
+  ggplot(cantril_filtered, 
+                       aes(x = Year, 
+                           y = `Cantril ladder score`, 
+                           color = Country)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(linewidth = 2) +
+  scale_y_continuous(limits = c(0, 10)) +
+  labs(
+    title = "Cantril Ladder Score Over Time",
+    x = "Year",
+    y = "Cantril Ladder Score",
+    color = "Country") +
+  theme_minimal()
+
+ggplotly(cantril_plot)
 # (When you're done with this section, don't forget to add tabsets, as mentioned in the instructions.)
 ```
 
